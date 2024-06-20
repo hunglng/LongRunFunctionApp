@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "LongRunFunctionApp": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7170",
+      "launchBrowser": false
+    }
+  }
+}

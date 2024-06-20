@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Long Running Sample</title>
+</head>
+
+<body>
+    <h1>Long Run</h1>
+    <input type="number" placeholder="Duration in Seconds" id="txtDuration">
+    <input type="button" value="Send" id="btnSend" onclick="SendRequest()">
+    <hr>
+    <ul id="ulResult">
+
+    </ul>
+    <script>
+        function SendRequest() {
+            var duration = document.getElementById("txtDuration");
+            var baseMinimalUrl = 'https://localhost:7270'
+            var baseFunctionUrl = 'http://localhost:7170'
+            var url = `${baseMinimalUrl}/api/LongRun?durationinseconds=${duration.value}`;
+            if (duration.value >= 0) {
+                var ulResult = document.getElementById("ulResult");
+                var li = document.createElement("li");
+                li.append(`${(new Date()).toLocaleString()} wait ${duration.value}s`);
+                ulResult.appendChild(li);
+
+                fetch(url)
+                    .then(res => {
+                        if (!res.ok) {
+                            li = document.createElement("li");
+                            li.append(`${(new Date()).toLocaleString()}: Error ${res.statusText}`);
+                            ulResult.appendChild(li);
+                        }
+                        return res.text();
+                    })
+                    .then(data => {
+                        li = document.createElement("li");
+                        li.append(`${(new Date()).toLocaleString()}: ${data}`);
+                        ulResult.appendChild(li);
+                    })
+                    .catch(e => {
+                        li = document.createElement("li");
+                        li.append(`${(new Date()).toLocaleString()}: Catch Error ${e}`);
+                        ulResult.appendChild(li);
+                    });
+            }
+        }
+    </script>
+</body>
+
+</html>
